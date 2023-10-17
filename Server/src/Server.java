@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-
 import Exception.NullDataException;
 import Exception.DuplicateDataException;
 import dao.DaoCourse;
@@ -125,11 +124,12 @@ public class Server extends UnicastRemoteObject implements ServerIF {
 	}
 	@Override
 	public String logout(String token) throws RemoteException {
+		String studentID = null;
+		if (TokenManager.isValidToken(token)) studentID = TokenManager.getID(token);
 		if(TokenManager.invalidateToken(token)) {
-			loggerManager.logInfo("StudentID: " + TokenManager.getID(token)+ " has Course registered.");
-			return "logout successfully";
-		}
-		else return "[error] Please Login First.";
+			loggerManager.logInfo("StudentID: " + studentID + " has logout");
+			return "[success] logout successfully";
+		} else return "[error] Please Login First.";
 	}
 	@Override
 	public String addCourse(String token, String courseID, String courseProfessor, String courseName, String coursePrerequisite) throws RemoteException, DuplicateDataException {
@@ -159,8 +159,8 @@ public class Server extends UnicastRemoteObject implements ServerIF {
 	@Override
 	public String registerCourse(String token, String courseID) throws RemoteException {
 		if (!TokenManager.isValidToken(token)) return "[error] Please Login First.";
-		else if(daoCourse.retriveByID(courseID) == null) return "not exist Course";
-		else if(daoStudentCourse.retriveRegistion(TokenManager.getID(token), courseID) != null) return "already exist registerCourse";
+		else if(daoCourse.retriveByID(courseID) == null) return "[error] not exist Course";
+		else if(daoStudentCourse.retriveRegistion(TokenManager.getID(token), courseID) != null) return "[error] already exist registerCourse";
 		else {
 			ArrayList<String> prerequisiteCourseList = daoCoursePrerequisite.retriveByID(courseID);
 			ArrayList<String> studentCourseList = daoStudentCourse.retriveCourse(TokenManager.getID(token));
