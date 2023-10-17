@@ -7,17 +7,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import Exception.NullDataException;
+
 import Exception.DuplicateDataException;
+import Exception.NullDataException;
 import dao.DaoCourse;
 import dao.DaoCoursePrerequisite;
 import dao.DaoStudent;
 import dao.DaoStudentCourse;
 import logger.LoggerManager;
 import token.TokenManager;
-public class Server extends UnicastRemoteObject implements ServerIF { 
+public class Server extends UnicastRemoteObject implements ServerIF {
 	private static final long serialVersionUID = 1L;
-	private static String filePath = "C:\\Users\\Owner\\Documents\\명지대학교\\2023년\\2학기\\클라이언트서버프로그래밍\\clientserver_main\\Server\\src\\Log\\logFile.txt";
+	private static String filePath = "C:\\Users\\Owner\\Documents\\명지대학교\\2023년\\2학기\\클라이언트서버프로그래밍\\clientserver-rmi-registration-project\\Server\\src\\Log\\logFile.txt";
 	private LoggerManager loggerManager;
 	private DaoStudent daoStudent;
 	private DaoCourse daoCourse;
@@ -110,7 +111,7 @@ public class Server extends UnicastRemoteObject implements ServerIF {
 		else {
 			daoStudent.create(studentName, studentID, studentPW, studentDepartment);
 			loggerManager.logInfo("StudentID: " + studentID + " has sign Up.");
-			return "[success] Sign up is complete."; 
+			return "[success] Sign up is complete.";
 		}
 	}
 	@Override

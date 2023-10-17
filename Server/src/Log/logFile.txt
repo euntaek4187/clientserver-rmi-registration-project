@@ -42,3 +42,17 @@
 2023-10-17 15:49:45 - [SEVERE] Duplicate subjects detected in prerequisites while adding course: 1
 2023-10-17 15:50:38 - [INFO] StudentID: 60000000 has logged in.
 2023-10-17 15:50:44 - [SEVERE] Duplicate subjects detected in prerequisites while adding course: 1
+2023-10-17 16:32:53 - [INFO] StudentID: 60000000 has logged in.
+2023-10-17 16:32:56 - [INFO] StudentID: 60000000 retrieved all Students
+2023-10-17 16:32:57 - [INFO] StudentID: 60000000 retrieved all Courses
+2023-10-17 16:33:13 - [SEVERE] Duplicate subjects detected in prerequisites while adding course: 1
+2023-10-17 16:33:20 - [INFO] StudentID: 60000000 retrieved all Courses
+2023-10-17 16:33:26 - [INFO] CourseID: 1 has added.
+2023-10-17 16:33:29 - [INFO] StudentID: 60000000 retrieved all Courses
+2023-10-17 16:33:34 - [INFO] CourseID: 1 has deleted.
+2023-10-17 16:33:36 - [INFO] StudentID: 60000000 retrieved all Courses
+2023-10-17 16:34:50 - [INFO] StudentID: 60000000 retrieved all Students
+2023-10-17 16:34:53 - [INFO] StudentID: 60000000 has logout
+2023-10-17 16:35:10 - [INFO] StudentID: 60000000 has logged in.
+2023-10-17 16:35:13 - [INFO] StudentID: 60000000 has logout
+2023-10-17 16:41:03 - [INFO] StudentID: 60000000 has logged in.

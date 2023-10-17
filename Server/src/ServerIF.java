@@ -1,8 +1,9 @@
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import Exception.NullDataException;
+
 import Exception.DuplicateDataException;
+import Exception.NullDataException;
 public interface ServerIF extends Remote {
     ArrayList<String> getAllStudentData(String token) throws RemoteException, NullDataException;
 	ArrayList<String> getregisterCourseData(String token) throws RemoteException;

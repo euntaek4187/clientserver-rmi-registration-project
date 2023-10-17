@@ -1,8 +1,8 @@
 package logger;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
-import java.util.Date;
-import java.text.SimpleDateFormat;
 public class CustomFormatter extends Formatter {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     @Override

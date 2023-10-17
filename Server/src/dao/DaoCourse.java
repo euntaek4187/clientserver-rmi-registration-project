@@ -48,7 +48,7 @@ public class DaoCourse {
                 String courseName = resultSet.getString("course_name");
                 course = courseId + " " + professorName + " " + courseName;
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
