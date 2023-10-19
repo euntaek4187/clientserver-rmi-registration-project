@@ -8,26 +8,31 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import Exception.NullDataException;
+import Exception.AuthenticationException;
 import Exception.DuplicateDataException;
 public class Client {
 	private static String token;
-	public static void main(String[] args) throws NotBoundException, IOException, NullDataException, DuplicateDataException {
+	public static void main(String[] args) throws NotBoundException, IOException, NullDataException, DuplicateDataException, AuthenticationException {
 		ServerIF server = null;
 		BufferedReader clientInputReader = new BufferedReader(new InputStreamReader(System.in));
 		try {
-			server = (ServerIF)Naming.lookup("Server");
-			runClientService(server, clientInputReader);
-		} catch (RemoteException e1) {
+		server = (ServerIF)Naming.lookup("Server");
+			while(true) {
+				try {
+					startClientService(server, clientInputReader);
+				} catch (NullDataException e1) {
+					System.out.println(e1.getMessage());
+				} catch (DuplicateDataException el) {
+					System.out.println(el.getMessage());
+				} catch (AuthenticationException el) {
+					System.out.println(el.getMessage());
+				}
+			}
+		}catch (RemoteException e1) {
 			e1.printStackTrace();
-		} catch (NullDataException e1) {
-			System.out.println(e1.getMessage());
-			runClientService(server, clientInputReader);
-		} catch (DuplicateDataException el) {
-			System.out.println(el.getMessage());
-			runClientService(server, clientInputReader);
 		}
 	}
-	private static void runClientService(ServerIF server, BufferedReader clientInputReader) throws IOException, RemoteException, NullDataException, DuplicateDataException {
+	private static void startClientService(ServerIF server, BufferedReader clientInputReader) throws IOException, RemoteException, NullDataException, DuplicateDataException, AuthenticationException {
 		while(true) {
 			printMainMenu();
 			String clientChoice = clientInputReader.readLine().trim();
@@ -40,8 +45,11 @@ public class Client {
 			else if (clientChoice.equals("7")) addCourse(server, clientInputReader);
 			else if (clientChoice.equals("8")) deleteCourse(server, clientInputReader);
 			else if (clientChoice.equals("9")) registerMenu(server, clientInputReader);
-			else if (clientChoice.equals("X"))break;
-			else System.out.print("invalid choice");
+			else if (clientChoice.equals("X")) {
+				System.out.println("|*** Thank you for using the course registration program! ***|");
+				System.exit(0);
+			}
+			else System.out.println("invalid choice");
 		}
 	}
 	private static void printMainMenu() {
@@ -62,28 +70,28 @@ public class Client {
 		System.out.println("1. Register for Courses");
 		System.out.println("2. Cancel a Course");
 	}
-	private static void registerMenu(ServerIF server, BufferedReader clientInputReader) throws IOException, NullDataException {
+	private static void registerMenu(ServerIF server, BufferedReader clientInputReader) throws IOException, NullDataException, AuthenticationException {
 		printRegisterMenu();
 		String clientChoice = clientInputReader.readLine().trim();
 		if (clientChoice.equals("1")) registerCourse(server, clientInputReader);
 		else if (clientChoice.equals("2")) cancelCourse(server, clientInputReader);
-		else System.out.print("invalid choice");
+		else System.out.println("invalid choice");
 	}
-	private static void cancelCourse(ServerIF server, BufferedReader clientInputReader)  throws RemoteException, IOException, NullDataException {
+	private static void cancelCourse(ServerIF server, BufferedReader clientInputReader)  throws RemoteException, IOException, NullDataException, AuthenticationException {
 		System.out.println("******** Cancel a Courses Infomation ********");
 		System.out.println("-- registerCourse List --");
 		showList(server.getregisterCourseData(token));
 		System.out.print("Course ID: "); String CourseID = dataValidation(clientInputReader.readLine().trim(), "Integer", clientInputReader);
 		System.out.println(server.cancelCourse(token, CourseID));
 	}
-	private static void registerCourse(ServerIF server, BufferedReader clientInputReader)  throws RemoteException, IOException, NullDataException {
+	private static void registerCourse(ServerIF server, BufferedReader clientInputReader)  throws RemoteException, IOException, NullDataException, AuthenticationException {
 		System.out.println("****** Register for Courses Infomation ******");
 		System.out.println("-- Course List --");
 		showList(server.getAllCourseData(token));
 		System.out.print("Course ID: "); String CourseID = dataValidation(clientInputReader.readLine().trim(), "Integer", clientInputReader);
 		System.out.println(server.registerCourse(token, CourseID));
 	}
-	private static void logout(ServerIF server, BufferedReader clientInputReader)  throws RemoteException, IOException {
+	private static void logout(ServerIF server, BufferedReader clientInputReader)  throws RemoteException, IOException, AuthenticationException {
 		System.out.println(server.logout(token));
 	}
 	private static void signUp(ServerIF server, BufferedReader clientInputReader)  throws RemoteException, IOException {
@@ -99,13 +107,13 @@ public class Client {
 		System.out.print("Student ID: "); String studentID = dataValidation(clientInputReader.readLine().trim(), "Integer", clientInputReader);
 		System.out.print("Student PW: "); String studentPW = dataValidation(clientInputReader.readLine().trim(), "String", clientInputReader);
 		token = server.login(studentID, studentPW);
-		System.out.println(server.isValidToken(token));
+		System.out.println(server.isLoginValidToken(token));
 	}
-	private static void deleteCourse(ServerIF server, BufferedReader clientInputReader)  throws RemoteException, IOException {
+	private static void deleteCourse(ServerIF server, BufferedReader clientInputReader)  throws RemoteException, IOException, AuthenticationException {
 		System.out.print("Course ID: "); String courseID = dataValidation(clientInputReader.readLine().trim(), "Integer", clientInputReader);
 		System.out.println(server.deleteCourse(token, courseID));
 	}
-	private static void addCourse(ServerIF server, BufferedReader clientInputReader) throws IOException, RemoteException, DuplicateDataException  {
+	private static void addCourse(ServerIF server, BufferedReader clientInputReader) throws IOException, RemoteException, DuplicateDataException, AuthenticationException  {
 		System.out.println("--Course Infomation--");
 		System.out.print("Course ID: "); String courseID = dataValidation(clientInputReader.readLine().trim(), "Integer", clientInputReader);
 		System.out.print("Course Professor: "); String courseProfessor = dataValidation(clientInputReader.readLine().trim(), "String", clientInputReader);
@@ -113,7 +121,7 @@ public class Client {
 		System.out.print("Course Prerequisite subjects: "); String coursePrerequisite = dataValidation(clientInputReader.readLine().trim(), "multiValue", clientInputReader);
 		System.out.println(server.addCourse(token, courseID, courseProfessor, courseName, coursePrerequisite));
 	}
-	private static void deleteMembership(ServerIF server, BufferedReader clientInputReader) throws RemoteException, IOException {
+	private static void deleteMembership(ServerIF server, BufferedReader clientInputReader) throws RemoteException, IOException, AuthenticationException {
 		System.out.print("Do you want to cancel your membership? [y/n] : ");
 		String reponse = clientInputReader.readLine().trim();
 		if (reponse.equals("y")) System.out.println(server.deleteMembership(token));
