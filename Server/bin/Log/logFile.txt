@@ -199,3 +199,7 @@
 2023-10-20 18:31:23 - [INFO] StudentID: 1 retrieved Student's Register Course
 2023-10-20 18:31:41 - [INFO] CourseID: 1 has deleted.
 2023-10-20 18:31:45 - [INFO] StudentID: 1 retrieved all Courses
+2023-10-21 11:59:46 - [INFO] StudentID: 60221320 has logged in.
+2023-10-21 11:59:51 - [INFO] CourseID: 1 has added.
+2023-10-21 12:00:06 - [INFO] CourseID: 1 has deleted.
+2023-10-21 12:00:23 - [INFO] CourseID: 1 has deleted.

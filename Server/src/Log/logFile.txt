@@ -199,3 +199,24 @@
 2023-10-20 18:31:23 - [INFO] StudentID: 1 retrieved Student's Register Course
 2023-10-20 18:31:41 - [INFO] CourseID: 1 has deleted.
 2023-10-20 18:31:45 - [INFO] StudentID: 1 retrieved all Courses
+2023-10-21 11:59:46 - [INFO] StudentID: 60221320 has logged in.
+2023-10-21 11:59:51 - [INFO] CourseID: 1 has added.
+2023-10-21 12:00:06 - [INFO] CourseID: 1 has deleted.
+2023-10-21 12:00:23 - [INFO] CourseID: 1 has deleted.
+2023-10-21 22:56:13 - [INFO] StudentID: 60221320 has logged in.
+2023-10-21 22:56:18 - [INFO] StudentID: 60221320 retrieved all Students
+2023-10-21 22:56:19 - [INFO] StudentID: 60221320 retrieved all Courses
+2023-10-21 22:56:24 - [SEVERE] Duplicate subjects detected in prerequisites while adding course: 1
+2023-10-21 22:56:29 - [INFO] CourseID: 1 has added.
+2023-10-21 22:56:34 - [INFO] StudentID: 60221320 retrieved all Courses
+2023-10-21 22:56:40 - [INFO] StudentID: 60221320 retrieved all Courses
+2023-10-21 22:56:42 - [INFO] CourseID: 1 has deleted.
+2023-10-21 22:56:45 - [INFO] StudentID: 60221320 retrieved all Courses
+2023-10-21 22:56:48 - [INFO] StudentID: 60221320 has Course registered.
+2023-10-21 22:56:51 - [INFO] StudentID: 60221320 retrieved Student's Register Course
+2023-10-21 22:56:53 - [INFO] StudentID: 60221320 has cancel Course.
+2023-10-21 22:56:55 - [INFO] StudentID: 60221320 retrieved Student's Register Course
+2023-10-21 22:56:57 - [INFO] StudentID: 60221320 has cancel Course.
+2023-10-21 22:56:59 - [INFO] StudentID: 60221320 retrieved all Courses
+2023-10-21 22:57:18 - [INFO] StudentID: 60000000 has logged in.
+2023-10-21 22:57:20 - [INFO] StudentID: 60000000 retrieved Student's Register Course
