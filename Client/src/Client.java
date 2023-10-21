@@ -32,7 +32,7 @@ public class Client {
 			e1.printStackTrace();
 		}
 	}
-	private static void startClientService(ServerIF server, BufferedReader clientInputReader) throws IOException, RemoteException, NullDataException, DuplicateDataException, AuthenticationException {
+	private static void startClientService(ServerIF server, BufferedReader clientInputReader) throws IOException, RemoteException, NullDataException, DuplicateDataException, AuthenticationException{
 		while(true) {
 			printMainMenu();
 			String clientChoice = clientInputReader.readLine().trim();
@@ -80,7 +80,7 @@ public class Client {
 	private static void cancelCourse(ServerIF server, BufferedReader clientInputReader)  throws RemoteException, IOException, NullDataException, AuthenticationException {
 		System.out.println("******** Cancel a Courses Infomation ********");
 		System.out.println("-- registerCourse List --");
-		showList(server.getregisterCourseData(token));
+		showList(server.getRegisterCourseData(token));
 		System.out.print("Course ID: "); String CourseID = dataValidation(clientInputReader.readLine().trim(), "Integer", clientInputReader);
 		System.out.println(server.cancelCourse(token, CourseID));
 	}

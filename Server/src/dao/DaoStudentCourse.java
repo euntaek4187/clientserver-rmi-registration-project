@@ -9,7 +9,7 @@ public class DaoStudentCourse {
     public DaoStudentCourse() {
         dbConnector = new DBConnector();
     }
-    public void create(String studentID, String courseID) {
+    public void create(String studentID, String courseID){
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -30,7 +30,7 @@ public class DaoStudentCourse {
             }
         }
     }
-    public String retriveRegistion(String studentID, String courseID) {
+    public String retriveRegistion(String studentID, String courseID){
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -60,7 +60,7 @@ public class DaoStudentCourse {
         }
 		return registryCourse;
     }
-    public ArrayList<String> retriveCourse(String studentID) {
+    public ArrayList<String> retriveCourse(String studentID){
         ArrayList<String> studentCourseList = new ArrayList<>();
     	Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -90,7 +90,28 @@ public class DaoStudentCourse {
         }
 		return studentCourseList;
     }
-    public void delete(String courseID) {
+    public void deleteByStudentID(String studentID){
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = dbConnector.getConnection();
+            String sql = "DELETE FROM student_courses WHERE student_id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, studentID);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (preparedStatement != null) preparedStatement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+    }
+    public void deleteByCourseID(String courseID){
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {

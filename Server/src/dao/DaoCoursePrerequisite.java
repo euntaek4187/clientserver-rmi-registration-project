@@ -32,7 +32,7 @@ public class DaoCoursePrerequisite {
             }
         }
     }
-    public ArrayList<String> retriveByID(String courseID) {
+    public ArrayList<String> retriveByID(String courseID){
         ArrayList<String> prerequisiteCourseList = new ArrayList<>();
     	Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -62,7 +62,7 @@ public class DaoCoursePrerequisite {
         }
 		return prerequisiteCourseList;
     }
-    public void delete(String courseID) {
+    public void delete(String courseID){
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {

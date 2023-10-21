@@ -6,7 +6,6 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import Exception.AuthenticationException;
 import Exception.DuplicateDataException;
@@ -45,20 +44,22 @@ public class Server extends UnicastRemoteObject implements ServerIF {
 		}
 	}
 	@Override
-	public ArrayList<String> getregisterCourseData(String token) throws RemoteException, AuthenticationException {
+	public ArrayList<String> getRegisterCourseData(String token) throws RemoteException, AuthenticationException{
 		ArrayList<String> registerCourseList = new ArrayList<>();
 		if (!TokenManager.isValidToken(token)) throw new AuthenticationException("[Exception] AuthenticationException: Please Login First.");
-		loggerManager.logInfo("StudentID: " + TokenManager.getID(token) + " retrieved Student's Register Course");
-    	for(String retriveCourse : daoStudentCourse.retriveCourse(TokenManager.getID(token))) {
+		String studentID = TokenManager.getID(token);
+		loggerManager.logInfo("StudentID: " + studentID + " retrieved Student's Register Course");
+    	for(String retriveCourse : daoStudentCourse.retriveCourse(studentID)) {
     		registerCourseList.add(daoCourse.retriveByID(retriveCourse));
     	}
     	if(registerCourseList.size() == 0) registerCourseList.add("nothing..");
     	return registerCourseList;
 	}
 	@Override
-	public ArrayList<String> getAllStudentData (String token) throws RemoteException , NullDataException, AuthenticationException{
+	public ArrayList<String> getAllStudentData (String token) throws RemoteException , NullDataException, AuthenticationException, NumberFormatException{
 		if (!TokenManager.isValidToken(token)) throw new AuthenticationException("[Exception] AuthenticationException: Please Login First.");
-    	loggerManager.logInfo("StudentID: " + TokenManager.getID(token) + " retrieved all Students");
+		String studentID = TokenManager.getID(token);
+    	loggerManager.logInfo("StudentID: " + studentID + " retrieved all Students");
         ArrayList<String> studentList = new ArrayList<>();
         for (String students : daoStudent.retriveAll()) {
             String[] studentInfo = students.split(" ");
@@ -75,7 +76,8 @@ public class Server extends UnicastRemoteObject implements ServerIF {
 	public ArrayList<String> getAllCourseData(String token) throws RemoteException , NullDataException, AuthenticationException{
 		ArrayList<String> CourseList = new ArrayList<>();
 		if (!TokenManager.isValidToken(token)) throw new AuthenticationException("[Exception] AuthenticationException: Please Login First.");
-    	loggerManager.logInfo("StudentID: " + TokenManager.getID(token) + " retrieved all Courses");
+		String studentID = TokenManager.getID(token);
+    	loggerManager.logInfo("StudentID: " + studentID + " retrieved all Courses");
     	CourseList = daoCourse.retriveAll();
     	if(CourseList.size() == 0) throw new NullDataException("[Exception] NullDataException: list is empty");
     	return CourseList;
@@ -94,20 +96,19 @@ public class Server extends UnicastRemoteObject implements ServerIF {
 	    return null;
 	}
 	@Override
-	public String signUp(String studentName, String studentID, String studentPW, String studentDepartment) throws RemoteException {
+	public String signUp(String studentName, String studentID, String studentPW, String studentDepartment) throws RemoteException{
 		if(daoStudent.retriveByID(studentID)) return "[error] ID is duplicated.";
-		else {
-			daoStudent.create(studentName, studentID, studentPW, studentDepartment);
-			loggerManager.logInfo("StudentID: " + studentID + " has sign Up.");
-			return "[success] Sign up is successful!";
-		}
+		daoStudent.create(studentName, studentID, studentPW, studentDepartment);
+		loggerManager.logInfo("StudentID: " + studentID + " has sign Up.");
+		return "[success] Sign up is successful!";
 	}
 	@Override
-	public String deleteMembership(String token) throws RemoteException, AuthenticationException {
+	public String deleteMembership(String token) throws RemoteException, AuthenticationException{
 		if (!TokenManager.isValidToken(token)) throw new AuthenticationException("[Exception] AuthenticationException: Please Login First.");
-		else if(!daoStudent.retriveByID(TokenManager.getID(token))) return "[error] Please Login First.";
-    	daoStudent.delete(TokenManager.getID(token));
-    	loggerManager.logInfo("StudentID: " + TokenManager.getID(token) + " has deleted.");
+		String studentID = TokenManager.getID(token);
+		daoStudentCourse.deleteByStudentID(studentID);
+    	daoStudent.delete(studentID);
+    	loggerManager.logInfo("StudentID: " + studentID + " has deleted.");
         return "[success] Successfully deleted student!";
 	}
 	@Override
@@ -120,51 +121,53 @@ public class Server extends UnicastRemoteObject implements ServerIF {
 		} else throw new AuthenticationException("[Exception] AuthenticationException: Please Login First.");
 	}
 	@Override
-	public String addCourse(String token, String courseID, String courseProfessor, String courseName, String coursePrerequisite) throws RemoteException, DuplicateDataException, AuthenticationException {
+	public String addCourse(String token, String courseID, String courseProfessor, String courseName, String coursePrerequisite) throws RemoteException, DuplicateDataException, AuthenticationException{
 		if (!TokenManager.isValidToken(token)) throw new AuthenticationException("[Exception] AuthenticationException: Please Login First.");
 	    else if (daoCourse.retriveByID(courseID) != null) return "[error] Course ID is duplicated.";
 		ArrayList<String> prerequisiteList = new ArrayList<>(Arrays.asList(coursePrerequisite.split("\\s+")));
     	if(!duplicateDataValidation(prerequisiteList)){
     		loggerManager.logError("Duplicate subjects detected in prerequisites while adding course: " + courseID, null);
     		throw new DuplicateDataException("[Exception] DuplicateDataException: Duplicate subjects exist in prerequisite subjects \n");
-    	} 
+    	}
     	daoCourse.create(courseID, courseProfessor, courseName);
 	    if(!coursePrerequisite.isEmpty()) daoCoursePrerequisite.create(courseID, prerequisiteList);
 	    loggerManager.logInfo("CourseID: " + courseID + " has added.");
         return "[success] Successfully added course!";
 	}
 	@Override
-	public String deleteCourse(String token, String courseID) throws RemoteException, AuthenticationException {
+	public String deleteCourse(String token, String courseID) throws RemoteException, AuthenticationException{
 		if (!TokenManager.isValidToken(token)) throw new AuthenticationException("[Exception] AuthenticationException: Please Login First.");
 		else if(daoCourse.retriveByID(courseID) == null) return "[error] Course does not exist.";
-    	daoStudentCourse.delete(courseID);
+    	daoStudentCourse.deleteByCourseID(courseID);
     	daoCoursePrerequisite.delete(courseID);
     	daoCourse.delete(courseID);
     	loggerManager.logInfo("CourseID: " + courseID + " has deleted.");
         return "[success] Successfully deleted course & prerequisites!";
 	}
 	@Override
-	public String registerCourse(String token, String courseID) throws RemoteException, AuthenticationException {
+	public String registerCourse(String token, String courseID) throws RemoteException, AuthenticationException{
 	    if (!TokenManager.isValidToken(token)) throw new AuthenticationException("[Exception] AuthenticationException: Please Login First.");
-	    else if (daoCourse.retriveByID(courseID) == null) return "[error] Course does not exist.";
-	    else if (daoStudentCourse.retriveRegistion(TokenManager.getID(token), courseID) != null) return "[error] This course has already been registered.";
+	    String studentID = TokenManager.getID(token);
+	    if (daoCourse.retriveByID(courseID) == null) return "[error] Course does not exist.";
+	    else if (daoStudentCourse.retriveRegistion(studentID, courseID) != null) return "[error] This course has already been registered.";
 	    ArrayList<String> prerequisiteCourseList = daoCoursePrerequisite.retriveByID(courseID);
-	    ArrayList<String> studentCourseList = daoStudentCourse.retriveCourse(TokenManager.getID(token));
+	    ArrayList<String> studentCourseList = daoStudentCourse.retriveCourse(studentID);
 	    String prerequisiteCourses = "";
 		for(String prerequisiteCourse : prerequisiteCourseList) {
 			prerequisiteCourses += " " + prerequisiteCourse;
 		}
 	    if (!studentCourseList.containsAll(prerequisiteCourseList)) return "[info] Courses required to be taken first: " + prerequisiteCourses;
-	    daoStudentCourse.create(TokenManager.getID(token), courseID);
-	    loggerManager.logInfo("StudentID: " + TokenManager.getID(token) + " has Course registered.");
+	    daoStudentCourse.create(studentID, courseID);
+	    loggerManager.logInfo("StudentID: " + studentID + " has Course registered.");
 	    return "[success] Successful course registration!";
 	}
 	@Override
-	public String cancelCourse(String token, String courseID) throws RemoteException, AuthenticationException {
+	public String cancelCourse(String token, String courseID) throws RemoteException, AuthenticationException{
 		if (!TokenManager.isValidToken(token)) throw new AuthenticationException("[Exception] AuthenticationException: Please Login First.");
-		if (daoStudentCourse.retriveRegistion(TokenManager.getID(token), courseID) == null) return "[error] you have not registered this course";
-		daoStudentCourse.delete(courseID);
-		loggerManager.logInfo("StudentID: " + TokenManager.getID(token) + " has cancel Course.");
+		String studentID = TokenManager.getID(token);
+		if (daoStudentCourse.retriveRegistion(studentID, courseID) == null) return "[error] you have not registered this course";
+		daoStudentCourse.deleteByCourseID(courseID);
+		loggerManager.logInfo("StudentID: " + studentID + " has cancel Course.");
 		return "[success] Successfully cancel course registration!";
 	}
 	private boolean duplicateDataValidation(ArrayList<String> prerequisiteList) {

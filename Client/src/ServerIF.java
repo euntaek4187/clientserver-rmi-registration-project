@@ -6,7 +6,7 @@ import Exception.DuplicateDataException;
 import Exception.NullDataException;
 public interface ServerIF extends Remote {
     ArrayList<String> getAllStudentData(String token) throws RemoteException, NullDataException, AuthenticationException;
-	ArrayList<String> getregisterCourseData(String token) throws RemoteException, AuthenticationException;
+	ArrayList<String> getRegisterCourseData(String token) throws RemoteException, AuthenticationException;
 	ArrayList<String> getAllCourseData(String token) throws RemoteException, NullDataException, AuthenticationException;
 	String login(String studentID, String studentPW) throws RemoteException;
 	String signUp(String studentName, String studentID, String studentPW, String studentDepartment) throws RemoteException;

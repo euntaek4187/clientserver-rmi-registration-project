@@ -178,3 +178,24 @@
 2023-10-19 14:27:25 - [INFO] StudentID: 60000000 retrieved all Courses
 2023-10-19 14:27:26 - [INFO] StudentID: 60000000 has Course registered.
 2023-10-19 14:27:28 - [INFO] StudentID: 60000000 retrieved Student's Register Course
+2023-10-20 11:35:56 - [INFO] StudentID: 60000000 has logged in.
+2023-10-20 11:35:57 - [INFO] StudentID: 60000000 retrieved all Courses
+2023-10-20 11:36:00 - [INFO] StudentID: 60000000 has Course registered.
+2023-10-20 11:36:02 - [INFO] StudentID: 60000000 has logout
+2023-10-20 11:36:06 - [INFO] StudentID: 60221320 has logged in.
+2023-10-20 11:36:08 - [INFO] StudentID: 60221320 retrieved all Courses
+2023-10-20 11:36:09 - [INFO] StudentID: 60221320 has Course registered.
+2023-10-20 12:35:36 - [INFO] StudentID: 60000000 has logged in.
+2023-10-20 12:35:41 - [INFO] StudentID: 60000000 has deleted.
+2023-10-20 12:38:47 - [INFO] StudentID: 60000000 has logged in.
+2023-10-20 12:38:51 - [INFO] StudentID: 60000000 has deleted.
+2023-10-20 18:29:03 - [INFO] StudentID: 1 has sign Up.
+2023-10-20 18:29:06 - [INFO] StudentID: 1 has logged in.
+2023-10-20 18:29:16 - [INFO] StudentID: 1 has logout
+2023-10-20 18:29:32 - [INFO] StudentID: 1 has logged in.
+2023-10-20 18:29:35 - [INFO] StudentID: 1 retrieved all Students
+2023-10-20 18:30:07 - [INFO] StudentID: 1 retrieved all Courses
+2023-10-20 18:30:44 - [INFO] CourseID: 1 has added.
+2023-10-20 18:31:23 - [INFO] StudentID: 1 retrieved Student's Register Course
+2023-10-20 18:31:41 - [INFO] CourseID: 1 has deleted.
+2023-10-20 18:31:45 - [INFO] StudentID: 1 retrieved all Courses

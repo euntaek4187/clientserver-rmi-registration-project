@@ -9,7 +9,7 @@ public class DaoCourse {
     public DaoCourse() {
         dbConnector = new DBConnector();
     }
-    public void create(String courseID, String courseProfessor, String courseName) {
+    public void create(String courseID, String courseProfessor, String courseName){
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -31,7 +31,7 @@ public class DaoCourse {
             }
         }
     }
-    public String retriveByID(String courseID) {
+    public String retriveByID(String courseID){
     	Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -62,20 +62,20 @@ public class DaoCourse {
         }
 		return course;
     }
-    public ArrayList<String> retriveAll() {
+    public ArrayList<String> retriveAll(){
         ArrayList<String> courseList = new ArrayList<>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        ResultSet rs = null;
+        ResultSet resultSet = null;
         try {
             connection = dbConnector.getConnection();
             String sql = "SELECT * FROM courses";
             preparedStatement = connection.prepareStatement(sql);
-            rs = preparedStatement.executeQuery();
-            while (rs.next()) {
-                int courseId = rs.getInt("course_id");
-                String professorName = rs.getString("professor_name");
-                String courseName = rs.getString("course_name");
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int courseId = resultSet.getInt("course_id");
+                String professorName = resultSet.getString("professor_name");
+                String courseName = resultSet.getString("course_name");
                 String courseData = courseId + " " + professorName + " " + courseName;
                 courseList.add(courseData);
             }
@@ -83,7 +83,7 @@ public class DaoCourse {
             e.printStackTrace();
         } finally {
             try {
-                if (rs != null) rs.close();
+                if (resultSet != null) resultSet.close();
                 if (preparedStatement != null) preparedStatement.close();
                 if (connection != null) connection.close();
             } catch (SQLException se) {
@@ -92,13 +92,12 @@ public class DaoCourse {
         }
         return courseList;
     }
-    public void delete(String courseID) {
+    public void delete(String courseID){
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
         try {
             connection = dbConnector.getConnection();
-
             String sql = "DELETE FROM courses WHERE course_id = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, courseID);

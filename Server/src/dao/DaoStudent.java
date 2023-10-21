@@ -9,7 +9,7 @@ public class DaoStudent {
     public DaoStudent() {
         dbConnector = new DBConnector();
     }
-    public void create(String studentName, String studentID, String studentPW, String studentDepartment) {
+    public void create(String studentName, String studentID, String studentPW, String studentDepartment){
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -34,7 +34,7 @@ public class DaoStudent {
             }
         }
     }
-    public boolean retriveByID(String studentID) {
+    public boolean retriveByID(String studentID){
     	Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -58,7 +58,7 @@ public class DaoStudent {
         }
 		return false;
     }
-    public ArrayList<String> retriveAll() {
+    public ArrayList<String> retriveAll(){
     	ArrayList<String> students = new ArrayList<>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -67,14 +67,13 @@ public class DaoStudent {
             connection = dbConnector.getConnection();
             String sql = "SELECT * FROM students";
             preparedStatement = connection.prepareStatement(sql);
-
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 int id = resultSet.getInt("student_id");
                 String name = resultSet.getString("student_name");
                 String password = resultSet.getString("password");
                 String department = resultSet.getString("department");
-                String studentInfo = id + " " + password + " " + name + " " + department; // 비밀번호는 정보에 포함하지 않습니다.
+                String studentInfo = id + " " + password + " " + name + " " + department;
                 students.add(studentInfo);
             }
         } catch (Exception e) {
@@ -90,17 +89,12 @@ public class DaoStudent {
         }
         return students;
     }
-    public void delete(String studentID) {
+    public void delete(String studentID){
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
             connection = dbConnector.getConnection();
-            String sql = "DELETE FROM student_courses WHERE student_id = ?";
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, studentID);
-            preparedStatement.executeUpdate();
-            preparedStatement.close();
-            sql = "DELETE FROM students WHERE student_id = ?";
+            String sql = "DELETE FROM students WHERE student_id = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, studentID);
             preparedStatement.executeUpdate();
