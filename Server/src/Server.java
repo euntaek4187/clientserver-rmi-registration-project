@@ -45,13 +45,10 @@ public class Server extends UnicastRemoteObject implements ServerIF {
 	}
 	@Override
 	public ArrayList<String> getRegisterCourseData(String token) throws RemoteException, AuthenticationException{
-		ArrayList<String> registerCourseList = new ArrayList<>();
 		if (!TokenManager.isValidToken(token)) throw new AuthenticationException("[Exception] AuthenticationException: Please Login First.");
 		String studentID = TokenManager.getID(token);
 		loggerManager.logInfo("StudentID: " + studentID + " retrieved Student's Register Course");
-    	for(String retriveCourse : daoStudentCourse.retriveCourse(studentID)) {
-    		registerCourseList.add(daoCourse.retriveByID(retriveCourse));
-    	}
+		ArrayList<String> registerCourseList = daoStudentCourse.retriveCourse(studentID);
     	if(registerCourseList.size() == 0) registerCourseList.add("nothing..");
     	return registerCourseList;
 	}
@@ -74,11 +71,10 @@ public class Server extends UnicastRemoteObject implements ServerIF {
 	}
 	@Override
 	public ArrayList<String> getAllCourseData(String token) throws RemoteException , NullDataException, AuthenticationException{
-		ArrayList<String> CourseList = new ArrayList<>();
 		if (!TokenManager.isValidToken(token)) throw new AuthenticationException("[Exception] AuthenticationException: Please Login First.");
 		String studentID = TokenManager.getID(token);
     	loggerManager.logInfo("StudentID: " + studentID + " retrieved all Courses");
-    	CourseList = daoCourse.retriveAll();
+    	ArrayList<String> CourseList = daoCourse.retriveAll();
     	if(CourseList.size() == 0) throw new NullDataException("[Exception] NullDataException: list is empty");
     	return CourseList;
 	}
@@ -166,7 +162,7 @@ public class Server extends UnicastRemoteObject implements ServerIF {
 		if (!TokenManager.isValidToken(token)) throw new AuthenticationException("[Exception] AuthenticationException: Please Login First.");
 		String studentID = TokenManager.getID(token);
 		if (daoStudentCourse.retriveRegistion(studentID, courseID) == null) return "[error] you have not registered this course";
-		daoStudentCourse.deleteByCourseID(courseID);
+		daoStudentCourse.delete(studentID, courseID);
 		loggerManager.logInfo("StudentID: " + studentID + " has cancel Course.");
 		return "[success] Successfully cancel course registration!";
 	}

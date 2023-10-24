@@ -131,4 +131,25 @@ public class DaoStudentCourse {
             }
         }
     }
+    public void delete(String studentID, String courseID){
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = dbConnector.getConnection();
+            String sql = "DELETE FROM student_courses WHERE student_id = ? AND course_id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, studentID);
+            preparedStatement.setString(2, courseID);
+            preparedStatement.executeUpdate();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (preparedStatement != null) preparedStatement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+    }
 }
