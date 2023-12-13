@@ -38,13 +38,13 @@ public class Client {
 			String clientChoice = clientInputReader.readLine().trim();
 			if (clientChoice.equals("1")) login(server, clientInputReader);
 			else if (clientChoice.equals("2")) signUp(server, clientInputReader);
-			else if (clientChoice.equals("3")) deleteMembership(server, clientInputReader);
-			else if (clientChoice.equals("4")) logout(server, clientInputReader);
-			else if (clientChoice.equals("5")) showList(server.getAllStudentData(token));
-			else if (clientChoice.equals("6")) showList(server.getAllCourseData(token));
-			else if (clientChoice.equals("7")) addCourse(server, clientInputReader);
-			else if (clientChoice.equals("8")) deleteCourse(server, clientInputReader);
-			else if (clientChoice.equals("9")) registerMenu(server, clientInputReader);
+			else if (clientChoice.equals("3")) showList(server.getAllStudentData(token));
+			else if (clientChoice.equals("4")) showList(server.getAllCourseData(token));
+			else if (clientChoice.equals("5")) addCourse(server, clientInputReader);
+			else if (clientChoice.equals("6")) deleteCourse(server, clientInputReader);
+			else if (clientChoice.equals("7")) registerMenu(server, clientInputReader);
+			else if (clientChoice.equals("8")) logout(server, clientInputReader);
+			else if (clientChoice.equals("9")) deleteMembership(server, clientInputReader);
 			else if (clientChoice.equals("X")) {
 				System.out.println("|*** Thank you for using the course registration program! ***|");
 				System.exit(0);
@@ -56,13 +56,13 @@ public class Client {
 		System.out.println("***************** Main Menu *****************");
 		System.out.println("1. Login");
 		System.out.println("2. SignUp");
-		System.out.println("3. Delete Membership");
-		System.out.println("4. Logout");
-		System.out.println("5. List Students");
-		System.out.println("6. List Courses");
-		System.out.println("7. Add Courses");
-		System.out.println("8. Delete Courses");
-		System.out.println("9. Register for Courses");
+		System.out.println("3. List Students");
+		System.out.println("4. List Courses");
+		System.out.println("5. Add Courses");
+		System.out.println("6. Delete Courses");
+		System.out.println("7. Register for Courses");
+		System.out.println("8. Logout");
+		System.out.println("9. Delete Membership");
 		System.out.println("X. Exit");
 	}
 	private static void printRegisterMenu() {
@@ -133,7 +133,7 @@ public class Client {
 	}
 	private static void showList(ArrayList<String> dataList) {
 		String list = "";
-		for(int i = 0; i<dataList.size(); i++) list += dataList.get(i)+"\n";
+		for(int i = 0; i<dataList.size(); i++) list += i+1+". "+dataList.get(i)+"\n";
 		System.out.println(list);
 	}
 	private static String dataValidation(String inputData, String type, BufferedReader clientInputReader) throws IOException {
